@@ -5,18 +5,38 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import EmojiPicker from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CreateBudgetType } from "@/types";
+import { useUser } from "@clerk/nextjs";
+import { createBudget } from "@/app/actions";
+import { toast } from "sonner";
+import { DialogClose } from "@radix-ui/react-dialog";
 const CreateBudget = () => {
   const [emojiIcon, setEmojiIcon] = useState("😊");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [name, setName] = useState<string | undefined>();
-  const [amount, setAmount] = useState<number | undefined>();
+  const [amount, setAmount] = useState<string | undefined>();
+  const { user } = useUser();
+
+  // used to create new budget
+  const onCreateBudget = async ({
+    name,
+    amount,
+    createdBy,
+    icon,
+  }: CreateBudgetType) => {
+    createBudget({ name, amount, createdBy, icon }).then(
+      (value) => value && toast("New Budget Created!")
+    );
+  };
 
   return (
     <div>
@@ -61,18 +81,31 @@ const CreateBudget = () => {
                   <Input
                     placeholder="e.g. $5000"
                     type="number"
-                    onChange={(e) => setAmount(+e.target.value)}
+                    onChange={(e) => setAmount(e.target.value)}
                   />
                 </div>
-                <Button
-                  className="mt-5 w-full bg-indigo-600"
-                  disabled={!name || !amount}
-                >
-                  Create Budget
-                </Button>
               </div>
             </DialogDescription>
           </DialogHeader>
+
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button
+                className="mt-5 w-full bg-indigo-600"
+                onClick={() =>
+                  onCreateBudget({
+                    name: name!,
+                    amount: amount!,
+                    createdBy: user?.primaryEmailAddress?.emailAddress!,
+                    icon: emojiIcon,
+                  })
+                }
+                disabled={!name || !amount}
+              >
+                Create Budget
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

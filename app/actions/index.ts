@@ -1,5 +1,6 @@
 "use server";
 
+import { CreateBudgetType } from "@/types";
 import prismadb from "../../lib/prismadb";
 
 export const checkUserBudgets = async (email: string | undefined) => {
@@ -8,6 +9,24 @@ export const checkUserBudgets = async (email: string | undefined) => {
       createdBy: email,
     },
   });
-  console.log(result?.length);
+
   return result?.length == 0;
+};
+
+export const createBudget = async ({
+  name,
+  amount,
+  createdBy,
+  icon,
+}: CreateBudgetType) => {
+  const budget = await prismadb?.budget.create({
+    data: {
+      name,
+      amount,
+      createdBy,
+      icon,
+    },
+  });
+
+  return budget;
 };
