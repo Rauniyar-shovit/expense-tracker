@@ -6,9 +6,11 @@ export type CreateBudgetType = {
 };
 
 export type BudgetListType = {
-  createdBy: string;
+  id: string;
   name: string;
-  totalItem: number;
+  amount: number;
+  icon: string | null;
+  createdBy: string;
   totalSpend: number;
-  _id: string;
+  totalItem: number;
 }[];

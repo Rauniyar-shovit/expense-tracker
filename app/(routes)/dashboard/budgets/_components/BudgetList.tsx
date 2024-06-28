@@ -10,23 +10,21 @@ import BudgetItem from "./BudgetItem";
 const BudgetList = () => {
   const { user } = useUser();
   const [budgetList, setBudgetList] = useState<BudgetListType | null>(null);
-
+  const [isLoadingBudget, setIsLoadingBudget] = useState(true);
   const getBudgetList = async () => {
     try {
       const budgets = await fetchBudgetList(
         user?.primaryEmailAddress?.emailAddress
       );
-      console.log(budgets);
-      setBudgetList(budgets as BudgetListType);
+      setBudgetList(budgets);
+      setIsLoadingBudget(false);
     } catch (error) {
       console.error("Error fetching budget list:", error);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      getBudgetList();
-    }
+    user && getBudgetList();
   }, [user]);
 
   return (
@@ -36,6 +34,13 @@ const BudgetList = () => {
         {budgetList &&
           budgetList.map((budget, index) => (
             <BudgetItem key={index} budget={budget} />
+          ))}
+        {isLoadingBudget &&
+          ["1", "2", "3", "4", "5"].map((index) => (
+            <div
+              key={index}
+              className="w-full bg-slate-200 rounded-lg h-[150px]"
+            ></div>
           ))}
       </div>
     </div>

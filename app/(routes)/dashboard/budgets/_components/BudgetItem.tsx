@@ -1,8 +1,12 @@
+import Link from "next/link";
 import React from "react";
 
 const BudgetItem = ({ budget }: any) => {
   return (
-    <div className="p-5 border rounded-lg hover:shadow-md cursor-pointer ">
+    <Link
+      href={`/dashboard/expenses/}`}
+      className="p-5 border rounded-lg hover:shadow-md cursor-pointer "
+    >
       <div className="flex gap-2 item-center justify-between">
         <div className="flex gap-2 item-center">
           <div>
@@ -30,7 +34,7 @@ const BudgetItem = ({ budget }: any) => {
           <div className="w-[40%] bg-blue-800 h-2 rounded-full "></div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

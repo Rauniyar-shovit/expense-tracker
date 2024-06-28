@@ -32,11 +32,47 @@ export const createBudget = async ({
 };
 
 export const fetchBudgetList = async (email?: string) => {
-  const results = await prismadb.budget.aggregateRaw({
+  const results = await prismadb.budget.findMany({
+    where: {
+      createdBy: email,
+    },
+    include: {
+      expenses: {
+        select: {
+          amount: true,
+        },
+      },
+    },
+    orderBy: {
+      amount: "desc",
+    },
+  });
+
+  console.log(results);
+
+  const budgetList = results.map((budget) => ({
+    id: budget.id,
+    name: budget.name,
+    amount: budget.amount,
+    icon: budget.icon,
+    createdBy: budget.createdBy,
+    totalSpend: budget.expenses.reduce(
+      (total, expense) => total + expense.amount,
+      0
+    ),
+    totalItem: budget.expenses.length,
+  }));
+
+  return budgetList;
+};
+
+export const getBudgetInfo = async (budegtId: string, email: string) => {
+  const budgetInfo = await prismadb.budget.aggregateRaw({
     pipeline: [
       {
         $match: {
           createdBy: email,
+          _id: budegtId,
         },
       },
       {
@@ -60,5 +96,6 @@ export const fetchBudgetList = async (email?: string) => {
       },
     ],
   });
-  return Object.values(results);
+
+  return budgetInfo;
 };
