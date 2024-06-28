@@ -19,7 +19,7 @@ export const createBudget = async ({
   createdBy,
   icon,
 }: CreateBudgetType) => {
-  const budget = await prismadb?.budget.create({
+  const budgetList = await prismadb?.budget.create({
     data: {
       name,
       amount,
@@ -28,5 +28,37 @@ export const createBudget = async ({
     },
   });
 
-  return budget;
+  return budgetList;
+};
+
+export const fetchBudgetList = async (email?: string) => {
+  const results = await prismadb.budget.aggregateRaw({
+    pipeline: [
+      {
+        $match: {
+          createdBy: email,
+        },
+      },
+      {
+        $lookup: {
+          from: "Expenses",
+          localField: "_id",
+          foreignField: "budgetId",
+          as: "expenses",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          amount: 1,
+          icon: 1,
+          createdBy: 1,
+          totalSpend: { $sum: "$expenses.amount" },
+          totalItem: { $size: "$expenses" },
+        },
+      },
+    ],
+  });
+  return Object.values(results);
 };

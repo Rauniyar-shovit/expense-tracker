@@ -15,9 +15,22 @@ datasource db {
 model Budget {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String  
-  amount String
+  amount Int
   icon  String?
   createdBy String
+
+  expenses Expenses[]
+}
+
+model Expenses {
+   id String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+   amount Int @default(0)
+   budgetId String @db.ObjectId
+   createdAt String
+
+   budget Budget @relation(fields: [budgetId], references: [id])
+
 }
 
 

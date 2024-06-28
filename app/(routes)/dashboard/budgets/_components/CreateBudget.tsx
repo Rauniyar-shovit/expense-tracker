@@ -19,11 +19,12 @@ import { useUser } from "@clerk/nextjs";
 import { createBudget } from "@/app/actions";
 import { toast } from "sonner";
 import { DialogClose } from "@radix-ui/react-dialog";
-const CreateBudget = () => {
+
+const CreateBudget = ({ refershData }: { refershData: () => void }) => {
   const [emojiIcon, setEmojiIcon] = useState("😊");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [name, setName] = useState<string | undefined>();
-  const [amount, setAmount] = useState<string | undefined>();
+  const [amount, setAmount] = useState<number | undefined>();
   const { user } = useUser();
 
   // used to create new budget
@@ -33,9 +34,10 @@ const CreateBudget = () => {
     createdBy,
     icon,
   }: CreateBudgetType) => {
-    createBudget({ name, amount, createdBy, icon }).then(
-      (value) => value && toast("New Budget Created!")
-    );
+    createBudget({ name, amount, createdBy, icon }).then((value) => {
+      refershData();
+      value && toast("New Budget Created!");
+    });
   };
 
   return (
@@ -60,7 +62,7 @@ const CreateBudget = () => {
                 >
                   {emojiIcon}
                 </Button>
-                <div className="absolute">
+                <div className="absolute z-20">
                   <EmojiPicker
                     open={openEmojiPicker}
                     onEmojiClick={(e) => {
@@ -81,7 +83,7 @@ const CreateBudget = () => {
                   <Input
                     placeholder="e.g. $5000"
                     type="number"
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setAmount(+e.target.value)}
                   />
                 </div>
               </div>
