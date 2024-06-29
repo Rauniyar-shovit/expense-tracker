@@ -2,6 +2,7 @@ import { getBudgetById } from "@/app/actions";
 import { User, currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import BudgetItem from "../../budgets/_components/BudgetItem";
+import AddExpense from "../_components/AddExpense";
 
 const Expenses = async ({ params: { id } }: { params: { id: string } }) => {
   const user: User | null = await currentUser();
@@ -15,7 +16,7 @@ const Expenses = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold">My Expenses </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
         <BudgetItem
           id={budgetInfo.id}
           name={budgetInfo.name}
@@ -25,6 +26,7 @@ const Expenses = async ({ params: { id } }: { params: { id: string } }) => {
           totalItem={budgetInfo.totalItem}
           totalSpend={budgetInfo.totalSpend}
         />
+        <AddExpense />
       </div>
     </div>
   );
