@@ -33,13 +33,22 @@ const BudgetList = () => {
         <CreateBudget refershData={() => getBudgetList()} />
         {budgetList &&
           budgetList.map((budget, index) => (
-            <BudgetItem key={index} budget={budget} />
+            <BudgetItem
+              key={index}
+              id={budget.id}
+              name={budget.name}
+              amount={budget.amount}
+              icon={budget.icon}
+              createdBy={budget.createdBy}
+              totalItem={budget.totalItem}
+              totalSpend={budget.totalSpend}
+            />
           ))}
         {isLoadingBudget &&
           ["1", "2", "3", "4", "5"].map((index) => (
             <div
               key={index}
-              className="w-full bg-slate-200 rounded-lg h-[150px]"
+              className="w-full bg-slate-200 rounded-lg h-[150px] animate-pulse"
             ></div>
           ))}
       </div>

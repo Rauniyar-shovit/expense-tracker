@@ -5,7 +5,7 @@ export type CreateBudgetType = {
   icon: string;
 };
 
-export type BudgetListType = {
+export type BudgetItem = {
   id: string;
   name: string;
   amount: number;
@@ -13,4 +13,6 @@ export type BudgetListType = {
   createdBy: string;
   totalSpend: number;
   totalItem: number;
-}[];
+};
+
+export type BudgetListType = BudgetItem[];
