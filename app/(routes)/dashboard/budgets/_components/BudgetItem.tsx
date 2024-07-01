@@ -11,6 +11,10 @@ const BudgetItem = ({
   totalSpend,
   totalItem,
 }: BudgetItemType) => {
+  const calculateProgressPercent = () => {
+    const perc = (totalSpend / amount) * 100;
+    return perc.toFixed(2);
+  };
   return (
     <Link
       href={`/dashboard/expenses/${id}`}
@@ -38,7 +42,10 @@ const BudgetItem = ({
           </h2>
         </div>
         <div className="w-full bg-slate-300 h-2 rounded-full ">
-          <div className="w-[40%] bg-blue-800 h-2 rounded-full "></div>
+          <div
+            style={{ width: ` ${calculateProgressPercent()}%` }}
+            className="w-[40%] bg-blue-800 h-2 rounded-full "
+          ></div>
         </div>
       </div>
     </Link>

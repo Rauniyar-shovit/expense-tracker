@@ -16,11 +16,15 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
   }, [user]);
 
   const fetchBudgetData = async () => {
-    const budgetInfo = await getBudgetById(
-      id,
-      user?.primaryEmailAddress?.emailAddress!
-    );
-    setBudgetInfo(budgetInfo);
+    try {
+      const budgetInfo = await getBudgetById(
+        id,
+        user?.primaryEmailAddress?.emailAddress!
+      );
+      setBudgetInfo(budgetInfo);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -45,6 +49,7 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
         <AddExpense
           budgetId={id}
           email={user?.primaryEmailAddress?.emailAddress!}
+          refreshData={() => fetchBudgetData()}
         />
       </div>
     </div>

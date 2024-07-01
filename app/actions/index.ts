@@ -104,7 +104,7 @@ export const addExpense = async ({
   createdAt,
   budgetId,
 }: AddExpenseType) => {
-  const budgetList = await prismadb?.expenses.create({
+  const expense = await prismadb?.expenses.create({
     data: {
       name,
       amount,
@@ -113,5 +113,5 @@ export const addExpense = async ({
     },
   });
 
-  return budgetList;
+  return expense;
 };
