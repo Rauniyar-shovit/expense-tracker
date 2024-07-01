@@ -15,6 +15,7 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
     user && fetchBudgetData();
   }, [user]);
 
+  // get budget information
   const fetchBudgetData = async () => {
     try {
       const budgetInfo = await getBudgetById(
@@ -25,6 +26,11 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  // get latest expenses
+  const fetchExpensesList = async () => {
+    const expenses = await getExpensesList();
   };
 
   return (

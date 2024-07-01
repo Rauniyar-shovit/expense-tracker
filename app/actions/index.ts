@@ -115,3 +115,11 @@ export const addExpense = async ({
 
   return expense;
 };
+
+export const getExpensesList = async (budegtId: string) => {
+  const expense = await prismadb.expenses.findMany({
+    where: {
+      budgetId: budegtId,
+    },
+  });
+};
