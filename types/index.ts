@@ -20,6 +20,15 @@ export type BudgetListType = BudgetItem[];
 export type AddExpenseType = {
   name: string;
   amount: number;
-  createdAt: string;
+  createdBy: string;
   budgetId: string;
+};
+
+export type ExpenseInfo = {
+  id: string;
+  name: string;
+  amount: number;
+  budgetId: string;
+  createdBy: string;
+  createdAt: Date;
 };

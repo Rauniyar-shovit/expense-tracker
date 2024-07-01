@@ -22,7 +22,7 @@ const AddExpense = ({
       const expense = await addExpense({
         name,
         amount,
-        createdAt: email,
+        createdBy: email,
         budgetId,
       });
 

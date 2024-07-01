@@ -101,14 +101,14 @@ export const getBudgetById = async (budegtId: string, email: string) => {
 export const addExpense = async ({
   name,
   amount,
-  createdAt,
+  createdBy,
   budgetId,
 }: AddExpenseType) => {
   const expense = await prismadb?.expenses.create({
     data: {
       name,
       amount,
-      createdAt,
+      createdBy,
       budgetId,
     },
   });
@@ -117,9 +117,14 @@ export const addExpense = async ({
 };
 
 export const getExpensesList = async (budegtId: string) => {
-  const expense = await prismadb.expenses.findMany({
+  const expenses = await prismadb.expenses.findMany({
     where: {
       budgetId: budegtId,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
+
+  return expenses;
 };
