@@ -16,3 +16,10 @@ export type BudgetItem = {
 };
 
 export type BudgetListType = BudgetItem[];
+
+export type AddExpenseType = {
+  name: string;
+  amount: number;
+  createdAt: string;
+  budgetId: string;
+};

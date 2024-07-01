@@ -11,6 +11,7 @@ const BudgetList = () => {
   const { user } = useUser();
   const [budgetList, setBudgetList] = useState<BudgetListType | null>(null);
   const [isLoadingBudget, setIsLoadingBudget] = useState(true);
+
   const getBudgetList = async () => {
     try {
       const budgets = await fetchBudgetList(

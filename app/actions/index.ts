@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateBudgetType } from "@/types";
+import { AddExpenseType, CreateBudgetType } from "@/types";
 import prismadb from "../../lib/prismadb";
 
 export const checkUserBudgets = async (email: string | undefined) => {
@@ -96,4 +96,22 @@ export const getBudgetById = async (budegtId: string, email: string) => {
   }));
 
   return budgetInfo[0];
+};
+
+export const addExpense = async ({
+  name,
+  amount,
+  createdAt,
+  budgetId,
+}: AddExpenseType) => {
+  const budgetList = await prismadb?.expenses.create({
+    data: {
+      name,
+      amount,
+      createdAt,
+      budgetId,
+    },
+  });
+
+  return budgetList;
 };
