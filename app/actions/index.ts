@@ -4,13 +4,13 @@ import { AddExpenseType, CreateBudgetType } from "@/types";
 import prismadb from "../../lib/prismadb";
 
 export const checkUserBudgets = async (email: string | undefined) => {
-  const result = await prismadb?.budget.findMany({
+  const budgets = await prismadb?.budget.findMany({
     where: {
       createdBy: email,
     },
   });
 
-  return result?.length == 0;
+  return budgets;
 };
 
 export const createBudget = async ({

@@ -1,10 +1,12 @@
 "use client";
+
 import { getBudgetById, getExpensesList } from "@/app/actions";
 import React, { useEffect, useState } from "react";
 import BudgetItem from "../../budgets/_components/BudgetItem";
 import AddExpense from "../_components/AddExpense";
 import { useUser } from "@clerk/nextjs";
 import { BudgetItem as BudgetItemType, ExpenseInfo } from "@/types";
+import ExpenseListTable from "../_components/ExpenseListTable";
 
 const Expenses = ({ params: { id } }: { params: { id: string } }) => {
   const [budgetInfo, setBudgetInfo] = useState<BudgetItemType | null>(null);
@@ -32,10 +34,9 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
 
   // get latest expenses
   const fetchExpensesList = async () => {
-    const expenses = await getExpensesList(budgetInfo?.id!);
+    const expenses = await getExpensesList(id);
     setExpenseList(expenses);
   };
-  console.log(expenseList);
 
   return (
     <div>
@@ -61,6 +62,10 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
           email={user?.primaryEmailAddress?.emailAddress!}
           refreshData={() => fetchBudgetData()}
         />
+      </div>
+      <div className="mt-4">
+        <h2 className="font-bold text-lg">Latest Expenses</h2>
+        <ExpenseListTable expenseList={expenseList} />
       </div>
     </div>
   );

@@ -8,17 +8,17 @@ import React, { useEffect, useState } from "react";
 const Dashboard = () => {
   const { user } = useUser();
   const router = useRouter();
-  const [hasBudgets, setHasBudgets] = useState<boolean | null>(null);
+  const [hasBudgets, setHasBudgets] = useState<number | null>(null);
 
   useEffect(() => {
     if (user) {
-      checkUserBudgets(user.primaryEmailAddress?.emailAddress).then((result) =>
-        setHasBudgets(result)
+      checkUserBudgets(user.primaryEmailAddress?.emailAddress).then(
+        (budgets) => {
+          if (!budgets) {
+            router.replace("/dashboard/budgets");
+          }
+        }
       );
-
-      if (!hasBudgets) {
-        router.replace("dashboard/budgets");
-      }
     }
   }, [user, hasBudgets, router]);
 
