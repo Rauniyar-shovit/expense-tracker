@@ -26,7 +26,7 @@ model Expenses {
    id String @id @default(auto()) @map("_id") @db.ObjectId
    name String
    amount Int @default(0)
-   budgetId String @db.ObjectId
+   budgetId String @db.ObjectId 
    createdBy String
    createdAt DateTime @default(now())  
    budget Budget @relation(fields: [budgetId], references: [id])

@@ -128,3 +128,13 @@ export const getExpensesList = async (budegtId: string) => {
 
   return expenses;
 };
+
+export const deleteExpense = async (expenseId: string) => {
+  const expenses = await prismadb.expenses.delete({
+    where: {
+      id: expenseId,
+    },
+  });
+
+  return expenses;
+};

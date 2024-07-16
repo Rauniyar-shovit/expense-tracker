@@ -7,6 +7,8 @@ import AddExpense from "../_components/AddExpense";
 import { useUser } from "@clerk/nextjs";
 import { BudgetItem as BudgetItemType, ExpenseInfo } from "@/types";
 import ExpenseListTable from "../_components/ExpenseListTable";
+import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 
 const Expenses = ({ params: { id } }: { params: { id: string } }) => {
   const [budgetInfo, setBudgetInfo] = useState<BudgetItemType | null>(null);
@@ -27,6 +29,7 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
         user?.primaryEmailAddress?.emailAddress!
       );
       setBudgetInfo(budgetInfo);
+      fetchExpensesList();
     } catch (error) {
       console.error(error);
     }
@@ -40,7 +43,13 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">My Expenses</h2>
+      <h2 className="text-2xl font-bold flex justify-between items-center">
+        My Expenses
+        <Button className="flex gap-2" variant={"destructive"}>
+          <Trash />
+          Delete
+        </Button>
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
         {budgetInfo ? (
           <BudgetItem
@@ -65,7 +74,10 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
       </div>
       <div className="mt-4">
         <h2 className="font-bold text-lg">Latest Expenses</h2>
-        <ExpenseListTable expenseList={expenseList} />
+        <ExpenseListTable
+          expenseList={expenseList}
+          refreshData={() => fetchBudgetData()}
+        />
       </div>
     </div>
   );

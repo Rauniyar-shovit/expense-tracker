@@ -2,7 +2,7 @@
 import { addExpense } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
 const AddExpense = ({
@@ -17,6 +17,8 @@ const AddExpense = ({
   const [name, setName] = useState<string | null>(null);
   const [amount, setAmount] = useState<number | null>(0);
 
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const amountRef = useRef<HTMLInputElement | null>(null);
   const onAddNewExpense = async (name: string, amount: number) => {
     try {
       const expense = await addExpense({
@@ -28,6 +30,8 @@ const AddExpense = ({
 
       if (expense) {
         refreshData();
+        if (nameRef.current) nameRef.current.value! = "";
+        if (amountRef.current) amountRef.current.value! = "";
         toast("New Expense Added!");
       }
     } catch (error) {
@@ -41,6 +45,7 @@ const AddExpense = ({
       <div className="mt-2">
         <h2 className="text-black font-medium my-1">Expense Name</h2>
         <Input
+          ref={nameRef}
           placeholder="e.g. Bedroom Decor"
           onChange={(e) => setName(e.target.value.trim())}
         />
@@ -48,6 +53,7 @@ const AddExpense = ({
       <div className="mt-2">
         <h2 className="text-black font-medium my-1">Expense Amount</h2>
         <Input
+          ref={amountRef}
           placeholder="e.g. 1000"
           onChange={(e) => setAmount(+e.target.value.trim())}
         />

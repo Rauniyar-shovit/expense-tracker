@@ -1,15 +1,30 @@
 import { Trash } from "lucide-react";
 import React from "react";
 import { format } from "date-fns";
+import { ExpenseInfo } from "@/types";
+import { deleteExpense } from "@/app/actions";
+import { toast } from "sonner";
 
-const ExpenseListTable = ({ expenseList }: { expenseList: any }) => {
-  console.log(expenseList);
+const ExpenseListTable = ({
+  expenseList,
+  refreshData,
+}: {
+  expenseList: ExpenseInfo[];
+  refreshData: () => void;
+}) => {
   const formatDate = (date: string) => {
     const formattedDate = format(new Date(date), "dd/MM/yyyy");
     return formattedDate;
   };
 
-  const deleteExpenses = (id: string) => {};
+  const deleteExpenseHandler = async (id: string) => {
+    const result = await deleteExpense(id);
+
+    if (result) {
+      toast("Expense Deleted");
+      refreshData();
+    }
+  };
 
   return (
     <div className="mt-3">
@@ -29,7 +44,7 @@ const ExpenseListTable = ({ expenseList }: { expenseList: any }) => {
           <h2>
             <Trash
               className="text-red-600 cursor-pointer"
-              onClick={() => deleteExpenses(expense.id)}
+              onClick={() => deleteExpenseHandler(expense.id)}
             />
           </h2>
         </div>
