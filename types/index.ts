@@ -13,6 +13,7 @@ export type BudgetItem = {
   createdBy: string;
   totalSpend: number;
   totalItem: number;
+  emojiIcon?: string;
 };
 
 export type BudgetListType = BudgetItem[];
