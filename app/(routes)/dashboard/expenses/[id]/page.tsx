@@ -132,7 +132,6 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
         />
       </div>
       <div className="mt-4">
-        <h2 className="font-bold text-lg">Latest Expenses</h2>
         <ExpenseListTable
           expenseList={expenseList}
           refreshData={() => fetchBudgetData()}

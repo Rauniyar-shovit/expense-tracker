@@ -2,6 +2,7 @@
 import { addExpense } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Loader } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -16,11 +17,14 @@ const AddExpense = ({
 }) => {
   const [name, setName] = useState<string | null>(null);
   const [amount, setAmount] = useState<number | null>(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const nameRef = useRef<HTMLInputElement | null>(null);
   const amountRef = useRef<HTMLInputElement | null>(null);
+
   const onAddNewExpense = async (name: string, amount: number) => {
     try {
+      setIsLoading(true);
       const expense = await addExpense({
         name,
         amount,
@@ -33,7 +37,10 @@ const AddExpense = ({
         if (nameRef.current) nameRef.current.value! = "";
         if (amountRef.current) amountRef.current.value! = "";
         toast("New Expense Added!");
+        setName("");
+        setAmount(0);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -60,10 +67,10 @@ const AddExpense = ({
       </div>
       <Button
         onClick={() => onAddNewExpense(name!, amount!)}
-        disabled={!(name && amount)}
+        disabled={!(name && amount) || isLoading}
         className="mt-5 bg-indigo-600 hover:bg-indigo-800 w-full"
       >
-        Add New Expense
+        {!isLoading ? "Add New Expense" : <Loader className="animate-spin" />}
       </Button>
     </div>
   );

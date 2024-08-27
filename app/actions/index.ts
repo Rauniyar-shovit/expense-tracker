@@ -178,3 +178,23 @@ export const updateBudget = async (
 
   return budgetList;
 };
+
+export const fetchExpensesList = async (email?: string) => {
+  const expensesList = await prismadb?.expenses.findMany({
+    where: {
+      createdBy: email,
+    },
+
+    select: {
+      id: true,
+      name: true,
+      amount: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return expensesList;
+};

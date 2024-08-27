@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       </div>
       <div className="md:ml-64 ">
         <DashboardHeader />
-        <div className="p-8">{children}</div>
+        <div className="p-4 md:p-8">{children}</div>
       </div>
     </div>
   );
