@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { BudgetItem } from "@/types";
 import { updateBudget } from "@/app/actions";
+import { toast } from "sonner";
 
 const EditBudget = ({
   budgetInfo,
@@ -28,8 +29,8 @@ const EditBudget = ({
   console.log(budgetInfo);
   const [emojiIcon, setEmojiIcon] = useState(budgetInfo?.icon);
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
-  const [name, setName] = useState<string | undefined>();
-  const [amount, setAmount] = useState<number | undefined>();
+  const [name, setName] = useState<string | undefined>(budgetInfo?.name);
+  const [amount, setAmount] = useState<number | undefined>(budgetInfo?.amount);
 
   const onUpdateBudget = async () => {
     const updatedBudgetInfo = await updateBudget(
@@ -40,6 +41,7 @@ const EditBudget = ({
     );
     if (updatedBudgetInfo) {
       refreshData();
+      toast("Budget Updated!!");
     }
   };
   return (
@@ -103,7 +105,9 @@ const EditBudget = ({
               <Button
                 className="mt-5 w-full bg-indigo-600"
                 onClick={() => onUpdateBudget()}
-                disabled={!name || !amount}
+                disabled={
+                  name === budgetInfo?.name && amount === budgetInfo?.amount
+                }
               >
                 Update Budget
               </Button>

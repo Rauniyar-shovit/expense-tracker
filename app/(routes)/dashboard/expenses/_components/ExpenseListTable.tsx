@@ -1,9 +1,10 @@
-import { Trash } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
 import React from "react";
 import { format } from "date-fns";
 import { ExpenseInfo } from "@/types";
-import { deleteExpense } from "@/app/actions";
+import { deleteExpense, updateExpense } from "@/app/actions";
 import { toast } from "sonner";
+import EditExpense from "./EditExpense";
 
 const ExpenseListTable = ({
   expenseList,
@@ -26,6 +27,7 @@ const ExpenseListTable = ({
     }
   };
 
+  console.log("ghere", expenseList);
   return (
     <>
       <h2 className="font-bold text-lg my-5">Latest Expenses</h2>
@@ -44,12 +46,13 @@ const ExpenseListTable = ({
 
             <h2>{formatDate(expense.createdAt)}</h2>
 
-            <h2>
+            <div className="flex items-center gap-3">
+              <EditExpense expenseInfo={expense} refreshData={refreshData} />
               <Trash
                 className="text-red-600 cursor-pointer"
                 onClick={() => deleteExpenseHandler(expense.id)}
               />
-            </h2>
+            </div>
           </div>
         ))}
       </div>

@@ -6,6 +6,7 @@ import { fetchExpensesList } from "@/app/actions";
 const AllExpenses = () => {
   const { user } = useUser();
   const [allExpenses, setAllExpenses] = useState<any>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     user && getAllExpenses();
@@ -21,11 +22,28 @@ const AllExpenses = () => {
       console.error("Error fetching expenses list:", error);
     }
   };
+
+  const filteredExpenses = allExpenses.filter((expense: any) =>
+    expense.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <ExpenseListTable
-      expenseList={allExpenses}
-      refreshData={() => getAllExpenses}
-    />
+    <div>
+      {/* Search bar */}
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search expenses by name..."
+        className="border p-2 rounded mb-4 w-full"
+      />
+
+      {/* Expense list table */}
+      <ExpenseListTable
+        expenseList={filteredExpenses}
+        refreshData={getAllExpenses}
+      />
+    </div>
   );
 };
 

@@ -139,6 +139,21 @@ export const deleteExpense = async (expenseId: string) => {
   return expenses;
 };
 
+export const updateExpense = async (
+  name: string,
+  amount: number,
+  id: string
+) => {
+  const expenses = await prismadb.expenses.update({
+    where: {
+      id,
+    },
+    data: { name, amount },
+  });
+
+  return expenses;
+};
+
 export const deleteExpenses = async (budgetId: string) => {
   const expenses = await prismadb.expenses.deleteMany({
     where: {
