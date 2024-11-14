@@ -54,7 +54,7 @@ const AddExpense = ({
         <Input
           ref={nameRef}
           placeholder="e.g. Bedroom Decor"
-          onChange={(e) => setName(e.target.value.trim())}
+          onChange={(e) => setName(e.target.value.trim().toLowerCase())}
         />
       </div>
       <div className="mt-2">

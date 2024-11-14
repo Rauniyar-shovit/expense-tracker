@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useUser } from "@clerk/nextjs";
 import EmojiPicker from "emoji-picker-react";
 import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -26,7 +25,6 @@ const EditBudget = ({
   budgetInfo: BudgetItem;
   refreshData: () => void;
 }) => {
-  console.log(budgetInfo);
   const [emojiIcon, setEmojiIcon] = useState(budgetInfo?.icon);
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [name, setName] = useState<string | undefined>(budgetInfo?.name);
@@ -37,7 +35,7 @@ const EditBudget = ({
       name!,
       amount!,
       emojiIcon!,
-      budgetInfo.id
+      budgetInfo.id!
     );
     if (updatedBudgetInfo) {
       refreshData();

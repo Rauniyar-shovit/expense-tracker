@@ -101,7 +101,10 @@ const Expenses = ({ params: { id } }: { params: { id: string } }) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => deleteBudgetHandler()}>
+                <AlertDialogAction
+                  className={"bg-red-600"}
+                  onClick={() => deleteBudgetHandler()}
+                >
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>

@@ -6,14 +6,14 @@ export type CreateBudgetType = {
 };
 
 export type BudgetItem = {
-  id: string;
-  name: string;
-  amount: number;
-  icon: string | null;
-  createdBy: string;
-  totalSpend: number;
-  totalItem: number;
   emojiIcon?: string;
+  id: string | undefined;
+  name: string | undefined;
+  amount: number | undefined;
+  icon: string | null | undefined;
+  createdBy: string | undefined;
+  totalSpend: number | undefined;
+  totalItem: number | undefined;
 };
 
 export type BudgetListType = BudgetItem[];

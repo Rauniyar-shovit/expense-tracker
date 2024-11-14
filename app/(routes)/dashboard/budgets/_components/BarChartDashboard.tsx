@@ -12,9 +12,7 @@ import {
 type BudgetList = { budgetList: BudgetListType | null };
 const BarCharDashboard = ({ budgetList }: BudgetList) => {
   return (
-    <div className="border rounded-lg p-5">
-      <h2 className="font-bold text-lg ">Activity</h2>
-
+    <>
       {budgetList && (
         <ResponsiveContainer width={"80%"} height={300}>
           <BarChart data={budgetList} margin={{ top: 7 }}>
@@ -27,7 +25,7 @@ const BarCharDashboard = ({ budgetList }: BudgetList) => {
           </BarChart>
         </ResponsiveContainer>
       )}
-    </div>
+    </>
   );
 };
 

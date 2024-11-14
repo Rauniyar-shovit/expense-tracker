@@ -15,8 +15,8 @@ const CardsInfo = ({ budgetList }: BudgetList) => {
     let totalBudget_ = 0;
     let totalSpend_ = 0;
     budgetList?.forEach((element) => {
-      totalBudget_ = totalBudget_ + element.amount;
-      totalSpend_ = totalSpend_ + element.totalSpend;
+      totalBudget_ = totalBudget_ + element.amount!;
+      totalSpend_ = totalSpend_ + element.totalSpend!;
     });
     setTotalBudget(totalBudget_);
     setTotalSpend(totalSpend_);

@@ -65,7 +65,7 @@ export const fetchBudgetList = async (email?: string) => {
 };
 
 export const getBudgetById = async (budegtId: string, email: string) => {
-  const results = await prismadb.budget.findMany({
+  const result = await prismadb.budget.findUnique({
     where: {
       createdBy: email,
       id: budegtId,
@@ -77,25 +77,22 @@ export const getBudgetById = async (budegtId: string, email: string) => {
         },
       },
     },
-    orderBy: {
-      amount: "desc",
-    },
   });
 
-  const budgetInfo = results.map((budget) => ({
-    id: budget.id,
-    name: budget.name,
-    amount: budget.amount,
-    icon: budget.icon,
-    createdBy: budget.createdBy,
-    totalSpend: budget.expenses.reduce(
+  const budgetInfo = {
+    id: result?.id,
+    name: result?.name,
+    amount: result?.amount,
+    icon: result?.icon,
+    createdBy: result?.createdBy,
+    totalSpend: result?.expenses.reduce(
       (total, expense) => total + expense.amount,
       0
     ),
-    totalItem: budget.expenses.length,
-  }));
+    totalItem: result?.expenses.length,
+  };
 
-  return budgetInfo[0];
+  return budgetInfo;
 };
 
 export const addExpense = async ({
